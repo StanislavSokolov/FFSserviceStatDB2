@@ -1,9 +1,7 @@
 package org.example;
 
-import org.example.model.Item;
-import org.example.model.Product;
-import org.example.model.Stock;
-import org.example.model.User;
+import org.example.com.Data;
+import org.example.model.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -25,7 +23,7 @@ public class Update extends Thread {
         while (true) {
             try {
                 update();
-                sleep(10000);
+                sleep(50000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -37,14 +35,24 @@ public class Update extends Thread {
         SessionFactory sessionFactory = new Configuration().addAnnotatedClass(User.class).
                 addAnnotatedClass(Product.class).
                 addAnnotatedClass(Stock.class).
-                addAnnotatedClass(Item.class).buildSessionFactory();
+                addAnnotatedClass(Item.class).
+                addAnnotatedClass(Year2023.class).buildSessionFactory();
         Session session = sessionFactory.getCurrentSession();
 
         try {
             session.beginTransaction();
-            List<User> users = session.createQuery("FROM User").getResultList();
-            for (User user : users) {
 
+            for (int i = 0; i > -50; i--) {
+                List<Item> items = session.createQuery("FROM Item where cdate like '" + Data.getData(i) + "'").getResultList();
+                if (!items.isEmpty()) {
+                    List<Year2023> day = session.createQuery("FROM Year2023 where cdate LIKE '" + Data.getData(i) + "'").getResultList();
+                    if (day.isEmpty()) {
+                        Year2023 year2023 = new Year2023(Data.getData(i), items.size());
+                        session.save(year2023);
+                    } else {
+                        session.createQuery("update Year2023 set csum = " + items.size() + " WHERE cdate = '" + Data.getData(i) + "'").executeUpdate();
+                    }
+                }
             }
             session.getTransaction().commit();
         } finally {
