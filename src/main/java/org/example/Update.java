@@ -42,15 +42,17 @@ public class Update extends Thread {
         try {
             session.beginTransaction();
 
-            for (int i = 0; i > -50; i--) {
-                List<Item> items = session.createQuery("FROM Item where cdate like '" + Data.getData(i) + "'").getResultList();
-                if (!items.isEmpty()) {
+            for (int i = 0; i > -1; i--) {
+                List<Item> itemsOrders = session.createQuery("FROM Item where cdate like '" + Data.getData(i) + "'").getResultList();
+                List<Item> itemsSales = session.createQuery("FROM Item where sdate like '" + Data.getData(i) + "'").getResultList();
+                if (!itemsOrders.isEmpty() || !itemsSales.isEmpty()) {
+                    System.out.println("Hello");
                     List<Year2023> day = session.createQuery("FROM Year2023 where cdate LIKE '" + Data.getData(i) + "'").getResultList();
                     if (day.isEmpty()) {
-                        Year2023 year2023 = new Year2023(Data.getData(i), items.size());
+                        Year2023 year2023 = new Year2023(Data.getData(i), itemsOrders.size(), itemsSales.size());
                         session.save(year2023);
                     } else {
-                        session.createQuery("update Year2023 set csum = " + items.size() + " WHERE cdate = '" + Data.getData(i) + "'").executeUpdate();
+                        session.createQuery("update Year2023 set csum = " + itemsOrders.size() + ", sales = " + itemsSales.size() + " WHERE cdate = '" + Data.getData(i) + "'").executeUpdate();
                     }
                 }
             }

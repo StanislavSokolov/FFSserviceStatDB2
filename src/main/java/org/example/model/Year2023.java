@@ -17,6 +17,9 @@ public class Year2023 {
     @Column(name = "csum")
     private int csum;
 
+    @Column(name = "sales")
+    private int sales;
+
     public int getId() {
         return id;
     }
@@ -41,9 +44,18 @@ public class Year2023 {
         this.csum = csum;
     }
 
-    public Year2023(String cdate, int csum) {
+    public int getSales() {
+        return sales;
+    }
+
+    public void setSales(int sales) {
+        this.sales = sales;
+    }
+
+    public Year2023(String cdate, int csum, int sales) {
         this.cdate = cdate;
         this.csum = csum;
+        this.sales = sales;
     }
 
     public Year2023() {
