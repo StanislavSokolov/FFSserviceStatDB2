@@ -14,11 +14,22 @@ public class Year2023 {
     @Column(name = "cdate")
     private String cdate;
 
-    @Column(name = "csum")
-    private int csum;
+    @Column(name = "orders")
+    private int orders;
 
     @Column(name = "sales")
     private int sales;
+
+    public int getReturns() {
+        return returns;
+    }
+
+    public void setReturns(int returns) {
+        this.returns = returns;
+    }
+
+    @Column(name = "returns")
+    private int returns;
 
     public int getId() {
         return id;
@@ -36,12 +47,12 @@ public class Year2023 {
         this.cdate = cdate;
     }
 
-    public int getCsum() {
-        return csum;
+    public int getOrders() {
+        return orders;
     }
 
-    public void setCsum(int csum) {
-        this.csum = csum;
+    public void setOrders(int orders) {
+        this.orders = orders;
     }
 
     public int getSales() {
@@ -52,10 +63,11 @@ public class Year2023 {
         this.sales = sales;
     }
 
-    public Year2023(String cdate, int csum, int sales) {
+    public Year2023(String cdate, int orders, int sales, int returns) {
         this.cdate = cdate;
-        this.csum = csum;
+        this.orders = orders;
         this.sales = sales;
+        this.returns = returns;
     }
 
     public Year2023() {
