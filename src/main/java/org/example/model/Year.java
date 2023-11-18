@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "year2023")
-public class Year2023 {
+public class Year {
 
     @Id
     @Column(name = "id")
@@ -63,13 +63,13 @@ public class Year2023 {
         this.sales = sales;
     }
 
-    public Year2023(String cdate, int orders, int sales, int returns) {
+    public Year(String cdate, int orders, int sales, int returns) {
         this.cdate = cdate;
         this.orders = orders;
         this.sales = sales;
         this.returns = returns;
     }
 
-    public Year2023() {
+    public Year() {
     }
 }

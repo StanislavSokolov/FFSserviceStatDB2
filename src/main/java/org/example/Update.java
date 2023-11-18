@@ -5,11 +5,7 @@ import org.example.model.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
@@ -36,7 +32,7 @@ public class Update extends Thread {
                 addAnnotatedClass(Product.class).
                 addAnnotatedClass(Stock.class).
                 addAnnotatedClass(Item.class).
-                addAnnotatedClass(Year2023.class).buildSessionFactory();
+                addAnnotatedClass(Year.class).buildSessionFactory();
         Session session = sessionFactory.getCurrentSession();
 
         try {
@@ -48,12 +44,12 @@ public class Update extends Thread {
                 List<Item> itemsReturns = session.createQuery("FROM Item where sdate like '" + Data.getData(i) + "' and status like 'returned'").getResultList();
                 if (!itemsOrders.isEmpty() || !itemsSales.isEmpty()) {
                     System.out.println("Hello");
-                    List<Year2023> day = session.createQuery("FROM Year2023 where cdate LIKE '" + Data.getData(i) + "'").getResultList();
+                    List<Year> day = session.createQuery("FROM Year where cdate LIKE '" + Data.getData(i) + "'").getResultList();
                     if (day.isEmpty()) {
-                        Year2023 year2023 = new Year2023(Data.getData(i), itemsOrders.size(), itemsSales.size(), 0);
-                        session.save(year2023);
+                        Year year = new Year(Data.getData(i), itemsOrders.size(), itemsSales.size(), 0);
+                        session.save(year);
                     } else {
-                        session.createQuery("update Year2023 set orders = " + itemsOrders.size() + ", sales = " + itemsSales.size() + ", returns = " + itemsReturns.size() + " WHERE cdate = '" + Data.getData(i) + "'").executeUpdate();
+                        session.createQuery("update Year set orders = " + itemsOrders.size() + ", sales = " + itemsSales.size() + ", returns = " + itemsReturns.size() + " WHERE cdate = '" + Data.getData(i) + "'").executeUpdate();
                     }
                 }
             }
