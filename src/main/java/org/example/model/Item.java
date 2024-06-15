@@ -32,14 +32,15 @@ public class Item {
     @Column(name = "status")
     private String status;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
-    private Product owner;
+//    @ManyToOne
+//    @JoinColumn(name = "product_id", referencedColumnName = "id")
+//    private Product owner;
 
     public Item() {
     }
 
-    public Item(String cdate, String sdate, int finishedPrice, int forPay, String odid, String oblastOkrugName, String warehouseName, String status, Product owner) {
+//    public Item(String cdate, String sdate, int finishedPrice, int forPay, String odid, String oblastOkrugName, String warehouseName, String status, Product owner) {
+    public Item(String cdate, String sdate, int finishedPrice, int forPay, String odid, String oblastOkrugName, String warehouseName, String status) {
         if (cdate.equals("")) {
             this.cdate = "";
             this.ctime = "";
@@ -60,7 +61,7 @@ public class Item {
         this.oblastOkrugName = oblastOkrugName;
         this.warehouseName = warehouseName;
         this.status = status;
-        this.owner = owner;
+//        this.owner = owner;
     }
 
     public int getId() {
@@ -149,13 +150,5 @@ public class Item {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public Product getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Product owner) {
-        this.owner = owner;
     }
 }

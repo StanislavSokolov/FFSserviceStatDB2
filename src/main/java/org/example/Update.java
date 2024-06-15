@@ -28,9 +28,7 @@ public class Update extends Thread {
 
     private void update() {
 
-        SessionFactory sessionFactory = new Configuration().addAnnotatedClass(User.class).
-                addAnnotatedClass(Product.class).
-                addAnnotatedClass(Stock.class).
+        SessionFactory sessionFactory = new Configuration().
                 addAnnotatedClass(Item.class).
                 addAnnotatedClass(Year.class).buildSessionFactory();
         Session session = sessionFactory.getCurrentSession();
